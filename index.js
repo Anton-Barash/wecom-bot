@@ -5,17 +5,10 @@ const token = 'anton123';
 const encodingAESKey = 'ZbIdlqAkaZutGiDM5UydiMEI22ReYUIaybJjk6kavhU';
 const corpId = 'wwe77990d4179900b5';
 
-// Функция расшифровки echostr
-// Расшифровка echostr через wechat-crypto
+// ВРЕМЕННАЯ ЗАГЛУШКА
 function decryptWeCom(echostr) {
-    const cryptor = new WXBizMsgCrypt(token, encodingAESKey, corpId);
-    try {
-        const decrypted = cryptor.decrypt(echostr);
-        return decrypted.message;
-    } catch (e) {
-        console.error('Ошибка расшифровки echostr:', e);
-        return '';
-    }
+    console.log('Получен echostr:', echostr);
+    return echostr; // просто возвращаем как есть
 }
 
 fastify.get('/', async (request, reply) => {
@@ -35,7 +28,6 @@ const start = async () => {
     try {
         await fastify.listen({ port: 5000, host: '0.0.0.0' });
         console.log('✅ Сервер запущен на порту 5000');
-        console.log('CorpId:', corpId);
     } catch (err) {
         console.error('❌ Ошибка:', err);
     }
