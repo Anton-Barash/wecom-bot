@@ -6,17 +6,23 @@ const encodingAESKey = 'ZbIdlqAkaZutGiDM5UydiMEI22ReYUIaybJjk6kavhU';
 const corpId = 'wwe77990d4179900b5';
 
 // Функция расшифровки echostr
-function decryptEchoStr(echostr) {
-    // Пока просто возвращаем как есть для теста
-    // В реальности здесь нужно расшифровывать
-    return echostr;
+// Расшифровка echostr через wechat-crypto
+function decryptWeCom(echostr) {
+    const cryptor = new WXBizMsgCrypt(token, encodingAESKey, corpId);
+    try {
+        const decrypted = cryptor.decrypt(echostr);
+        return decrypted.message;
+    } catch (e) {
+        console.error('Ошибка расшифровки echostr:', e);
+        return '';
+    }
 }
 
 fastify.get('/', async (request, reply) => {
     const { msg_signature, timestamp, nonce, echostr } = request.query;
     console.log('GET от WeCom:', request.query);
     
-    const decrypted = decryptEchoStr(echostr);
+    const decrypted = decryptWeCom(echostr);
     return reply.send(decrypted);
 });
 
