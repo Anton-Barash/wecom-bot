@@ -1,15 +1,14 @@
 const fastify = require('fastify')({ logger: false });
-
-// Для WeCom расшифровки
-const WXBizMsgCrypt = require('wechat-crypto');
 const crypto = require('crypto');
 
 const token = 'anton123';
 const encodingAESKey = 'ZbIdlqAkaZutGiDM5UydiMEI22ReYUIaybJjk6kavhU';
-const corpId = 'wwe77990d4179900b5';  // ваш Company ID
+const corpId = 'wwe77990d4179900b5';
 
-// ВРЕМЕННАЯ заглушка (пока без расшифровки)
-function decryptWeCom(echostr) {
+// Функция расшифровки echostr
+function decryptEchoStr(echostr) {
+    // Пока просто возвращаем как есть для теста
+    // В реальности здесь нужно расшифровывать
     return echostr;
 }
 
@@ -17,7 +16,7 @@ fastify.get('/', async (request, reply) => {
     const { msg_signature, timestamp, nonce, echostr } = request.query;
     console.log('GET от WeCom:', request.query);
     
-    const decrypted = decryptWeCom(echostr);
+    const decrypted = decryptEchoStr(echostr);
     return reply.send(decrypted);
 });
 
